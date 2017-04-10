@@ -1,0 +1,8 @@
+library(tidyr)
+hpcdata <- read.table("household_power_consumption.txt", header=TRUE, nrows=70000, sep=";",comment.char = "",na.strings="?")
+hpcsubdata <- subset(hpcdata, Date =="1/2/2007"|Date=="2/2/2007")
+hpcdatetime <- unite(hpcsubdata, datetime, c(Date, Time), sep = " ")
+hpcdatetime$datetime <- strptime(hpcdatetime$datetime, format = "%d/%m/%Y %H:%M:%S")
+png(filename="plot1.png")
+with(hpcdatetime, hist(Global_active_power,freq=TRUE, col = "red",main = "Global Active Power", xlab = "Global Active Power(kilowatts)", ylab= "Frequency"))
+dev.off()
